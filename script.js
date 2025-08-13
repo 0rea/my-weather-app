@@ -5,19 +5,12 @@ const weatherInfoContainer = document.querySelector('#weather-info-container');
 
 async function getWeather(city) {
     try {
-        // ดึงข้อมูลสภาพอากาศปัจจุบัน
         const resCurrent = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(city)}&appid=${API_KEY}&units=metric&lang=th`);
         if (!resCurrent.ok) throw new Error("ไม่พบข้อมูลเมืองนี้");
-
         const currentData = await resCurrent.json();
-
-        // ดึงข้อมูลพยากรณ์ 5 วัน (3 ชั่วโมง/ครั้ง)
         const resForecast = await fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${encodeURIComponent(city)}&appid=${API_KEY}&units=metric&lang=th`);
         if (!resForecast.ok) throw new Error("ไม่สามารถโหลดข้อมูลพยากรณ์");
-
         const forecastData = await resForecast.json();
-
-        // แสดงข้อมูลปัจจุบัน และพยากรณ์ 5 วัน
         displayWeather(currentData);
         displayForecast5Days(forecastData);
     } catch (err) {
@@ -38,12 +31,10 @@ function displayWeather(data) {
         <p>ความชื้น: ${humidity}%</p>
     `;
 
-    // แสดงข้อมูลปัจจุบันก่อนข้อมูลพยากรณ์
     weatherInfoContainer.innerHTML = weatherHtml;
 }
 
 function displayForecast5Days(data) {
-    // สรุปข้อมูลพยากรณ์รายวันจากข้อมูล 3 ชั่วโมง
     const days = {};
 
     data.list.forEach(item => {
@@ -63,7 +54,7 @@ function displayForecast5Days(data) {
     let forecastHtml = '<div class="forecast-container">';
     let count = 0;
     for (const [date, info] of Object.entries(days)) {
-        if (count >= 5) break; // แสดงแค่ 5 วัน
+        if (count >= 5) break; 
         const icon = `https://openweathermap.org/img/wn/${info.weather.icon}@2x.png`;
         forecastHtml += `
             <div class="weather-card">
@@ -78,7 +69,6 @@ function displayForecast5Days(data) {
     }
     forecastHtml += '</div>';
 
-    // เพิ่มข้อมูลพยากรณ์ต่อท้ายข้อมูลปัจจุบัน
     weatherInfoContainer.innerHTML += forecastHtml;
 }
 
@@ -88,7 +78,6 @@ searchForm.addEventListener("submit", (e) => {
     if (city) getWeather(city);
 });
 
-// โหลดสภาพอากาศลำปางตอนเปิดเว็บ
 window.addEventListener("load", () => {
     getWeather("Lampang");
 });
