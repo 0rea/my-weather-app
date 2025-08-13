@@ -1,0 +1,223 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    background: linear-gradient(135deg, #0b3d91 0%, #3a8dff 100%);
+    font-family: 'Press Start 2P', cursive;
+    color: #e1e1e1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100dvh; /* ใช้ dvh แทน vh เพื่อรองรับมือถือ */
+    margin: 0;
+    user-select: none;
+    position: relative;
+    overflow: hidden;
+}
+
+/* วิดีโอพื้นหลัง */
+#bg-video {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    object-fit: cover;
+    z-index: -1;
+    filter: brightness(0.5);
+    pointer-events: none;
+}
+
+.app-container {
+    background: transparent;
+    border: 5px solid #fddb3a;
+    box-shadow: 8px 8px 0 #ffde59;
+    border-radius: 0.5rem;
+    width: 100%;
+    max-width: 1400px;
+    height: 90vh;
+    padding: 1.5rem 2rem;
+    text-align: center;
+    z-index: 1;
+    position: relative;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    overflow-y: auto;
+}
+
+h1 {
+    color: #fddb3a;
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    text-shadow:
+        2px 2px 0 #000,
+        4px 4px 0 #444;
+    animation: pixelFlicker 1.5s infinite;
+}
+
+#search-form {
+    display: flex;
+    gap: 0.75rem;
+    margin: 1.5rem auto 2.5rem;
+    max-width: 600px;
+    width: 100%;
+}
+
+#city-input {
+    flex-grow: 1;
+    padding: 1rem 1.2rem;
+    font-family: 'Press Start 2P', cursive;
+    font-size: 1rem;
+    background: #222831;
+    border: 3px solid #fddb3a;
+    color: #fddb3a;
+    box-shadow: inset 3px 3px 0 #222831;
+    outline-offset: 3px;
+    border-radius: 6px;
+    transition: border-color 0.3s ease;
+}
+
+#city-input::placeholder {
+    color: #fddb3a99;
+}
+
+#search-form button {
+    padding: 0.75rem 1rem;
+    font-size: 0.75rem;
+    font-family: 'Press Start 2P', cursive;
+    background: #fddb3a;
+    color: #222831;
+    border: 3px solid #fddb3a;
+    box-shadow: 4px 4px 0 #bfa830;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    border-radius: 6px;
+}
+
+#search-form button:hover {
+    background: #ffec4c;
+    color: #1b1b1b;
+}
+
+/* กรอบหลักครอบผลลัพธ์ - flex แนวตั้ง พร้อม scroll */
+
+
+/* container สำหรับ forecast cards เป็น flex แนวนอน */
+.forecast-container {
+    display: flex;
+    gap: 1.2rem;
+    overflow-x: auto;
+    padding-top: 1.2rem;
+    user-select: none;
+    scroll-padding: 1rem;
+    justify-content: center;
+}
+
+/* scrollbar แบบบางสีเหลืองเข้ากับธีม */
+#weather-info-container::-webkit-scrollbar,
+.forecast-container::-webkit-scrollbar {
+    height: 8px;
+}
+#weather-info-container::-webkit-scrollbar-track,
+.forecast-container::-webkit-scrollbar-track {
+    background: transparent;
+}
+#weather-info-container::-webkit-scrollbar-thumb,
+.forecast-container::-webkit-scrollbar-thumb {
+    background-color: #fddb3a88;
+    border-radius: 4px;
+}
+
+/* การ์ดสภาพอากาศแต่ละวัน */
+.weather-card {
+    background: rgba(34, 40, 49, 0.75);
+    border: 3px solid #fddb3a;
+    box-shadow: 6px 6px 0 #bfa830;
+    padding: 1.4rem 1.6rem;
+    font-size: 0.95rem;
+    border-radius: 14px;
+    text-shadow: 1.5px 1.5px 0 #000;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    min-width: 150px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.weather-card:hover {
+    transform: scale(1.08);
+    box-shadow: 8px 8px 15px #fddb3aaa;
+}
+
+.weather-icon {
+    width: 60px;
+    height: 60px;
+    image-rendering: pixelated;
+    margin: 0 auto 0.7rem;
+    filter: drop-shadow(2px 2px 2px rgba(0,0,0,0.7));
+    display: block;
+}
+
+.temp {
+    font-weight: bold;
+    color: #fddb3a;
+    font-size: 1.15rem;
+    margin-bottom: 0.4rem;
+    user-select: none;
+}
+
+#weather-info-container > h2 {
+    font-size: 1.4rem;
+    margin-bottom: 1rem;
+    color: #fddb3a;
+    text-shadow: 2px 2px 0 #000;
+    user-select: none;
+}
+
+
+.error {
+    color: #ff4444;
+    font-weight: bold;
+    font-size: 1rem;
+    text-shadow: 1px 1px 0 #000;
+}
+
+footer {
+    margin-top: 2rem;
+    font-size: 0.5rem;
+    color: #fddb3aaa;
+    font-family: monospace;
+    user-select: none;
+}
+
+/* กำหนดอนิเมชันไฟกระพริบ */
+@keyframes pixelFlicker {
+    0%, 100% {opacity: 1;}
+    50% {opacity: 0.8;}
+}
+
+/* ปรับให้รองรับหน้าจอเล็ก */
+@media (max-width: 600px) {
+    .app-container {
+        width: 100vw;
+        height: auto;
+        max-height: none;
+        padding: 1rem;
+    }
+
+    #search-form {
+        flex-direction: column;
+    }
+
+    #search-form button {
+        width: 100%;
+    }
+}
